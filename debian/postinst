@@ -1,0 +1,42 @@
+#!/bin/sh
+set -e
+
+#close stdout
+#exec 1<&-
+##close stderr
+#exec 2<&-
+##open stdout as $log_file file for read and write.
+#exec 1<> "/tmp/zram-config.${$}.debug"
+##redirect stderr to stdout
+#exec 2>&1
+#set -x #enable trace mode
+
+package="zram-config"
+
+case "${1}" in
+    configure)
+        if [ -x "/etc/init.d/${package}" ] || [ -e "/etc/init/${package}.conf" ]; then
+            if [ ! -e "/etc/init/${package}.conf" ]; then
+                update-rc.d "${package}" defaults >/dev/null
+            fi
+
+            invoke-rc.d "${package}" start || :
+        fi
+
+        ;;
+
+    remove|purge|abort-upgrade|abort-deconfigure|abort-remove)
+            if [ -x "/etc/init.d/${package}" ] || [ -e "/etc/init/${package}.conf" ]; then
+                invoke-rc.d "${package}" stop || :
+            fi
+        ;;
+
+    *)
+        printf "%s\\n" "${0} called with unknown argument \`${1}'" 1>&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

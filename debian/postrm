@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+package="zram-config"
+
+if [ "$1" = "purge" ] ; then
+        update-rc.d "${package}" remove >/dev/null
+fi
+
+# In case this system is running systemd, we make systemd reload the unit files
+# to pick up changes.
+if [ -d /run/systemd/system ] ; then
+    systemctl --system daemon-reload >/dev/null || true
+fi

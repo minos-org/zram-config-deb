@@ -1,0 +1,16 @@
+Source: zram-config
+Section: misc
+Priority: optional
+Maintainer: Javier López <j@minos.io>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.5
+Homepage: http://minos.io/
+Vcs-Git: git://github.com/minos-org/zram-config-deb.git
+Vcs-Browser: https://github.com/minos-org/zram-config-deb.git
+
+Package: zram-config
+Architecture: any
+Depends: ${misc:Depends}, lsb-base(>= 3.2-14)
+Description: Initializes zram swapping
+ This installs an init.d job to enable zram support on kernels that have
+ the module available.

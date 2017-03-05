@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+
+package="zram-config"
+
+case "${1}" in
+  remove)
+      if [ -f "/var/lib/dpkg/info/${package}.postinst" ]; then
+          "/var/lib/dpkg/info/${package}.postinst" "${1}"
+      fi
+  ;;
+
+  upgrade|failed-upgrade|abort-install|abort-upgrade|disappear) : ;;
+
+  *)
+      printf "%s\\n" "${0} called with unknown argument \`${1}'" 1>&2
+      exit 1
+  ;;
+
+esac
+
+#DEBHELPER#
+
+exit 0
